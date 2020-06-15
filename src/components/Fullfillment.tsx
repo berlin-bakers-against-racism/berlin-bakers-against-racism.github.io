@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Grid, Typography, TextField } from "@material-ui/core";
+import { FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Grid, Typography, TextField, FormHelperText } from "@material-ui/core";
 import { Field } from "formik";
 
 import { AppContext } from "../context/AppState";
@@ -23,6 +23,7 @@ const delivery: React.FC = () => {
             <FormControlLabel value={FulfillmentOption.Pickup} control={<Radio />} label="Pick-up" />
             <FormControlLabel value={FulfillmentOption.DropOff} control={<Radio />} label="Delivery" />
           </RadioGroup>
+          <FormHelperText>You can choose to have your goods delivered for a 5€ fee that will also be donated. Or you can pick-up for free at one of our convenient locations.</FormHelperText>
         </FormControl>
       </Grid>
       { fulfillment === FulfillmentOption.DropOff &&
