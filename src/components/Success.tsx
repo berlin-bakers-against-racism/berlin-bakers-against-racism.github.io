@@ -2,26 +2,33 @@ import React from "react";
 
 import { Grid, Typography, Link } from "@material-ui/core";
 import { Donor, Cart, FulfillmentOption } from "../context/domain";
+import Summary from "../components/Summary";
 
 const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 
-const SuccessPage: React.FC<{donor: Donor, cart: Cart}> = ({ donor, cart }) => {
+const SuccessPage: React.FC<{ donor: Donor, cart: Cart }> = ({ donor, cart }) => {
   let fulfillment;
-  if (!cart){
+  if (!cart) {
     fulfillment = "pickup or delivery";
-  } else if (cart.fulfillment === FulfillmentOption.DropOff) {
-    fulfillment = "delivery";
   } else {
-    fulfillment = "pickup";
+    if (cart.fulfillment === FulfillmentOption.DropOff) {
+      fulfillment = "delivery";
+    } else {
+      fulfillment = "pickup";
+    }
   }
 
-
   return (
+    <>
       <Grid item xs={12}>
-      <Typography variant="h4" component="h2">
+        <Typography variant="h4" component="h2">
           Thank you{donor?.fullName && ", " + donor.fullName + ", "} for your contribution!
         </Typography>
-        <br/>
+      </Grid>
+      <br/>
+      <Summary cart={cart} />
+      <br />
+      <Grid item xs={12}>
         <Typography paragraph>
           Next steps:
         </Typography>
@@ -36,6 +43,7 @@ const SuccessPage: React.FC<{donor: Donor, cart: Cart}> = ({ donor, cart }) => {
           </ol>
         </Typography>
       </Grid>
+    </>
   );
 };
 

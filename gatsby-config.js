@@ -34,7 +34,7 @@ module.exports = {
           // material-ui theme
           palette: {
             primary: {
-              main: "#BA3D3B", // or whatever colors you need
+              main: "#663399", // or whatever colors you need
             },
           },
         },

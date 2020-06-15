@@ -8,7 +8,7 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 
 import OrderForm from "../components/OrderForm";
-import SuccessPage from "./success";
+import SuccessPage from "../components/Success";
 import { Donor, OrderResponse, ActionType } from "../context/domain";
 
 

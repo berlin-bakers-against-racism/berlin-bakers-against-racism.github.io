@@ -1,75 +1,71 @@
 import React from "react";
 
-import { AppContext } from "../context/AppState";
-import { Grid, Typography } from "@material-ui/core";
-import { Alert } from "@material-ui/lab"
-import { CartItem } from "../context/domain";
+import { Grid, Typography, Card, CardContent, CardHeader, Avatar } from "@material-ui/core";
+import { Cart } from "../context/domain";
+import { makeStyles } from '@material-ui/core/styles';
+import RedeemIcon from '@material-ui/icons/Redeem';
 
 const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 
-const SummaryItem: React.FC<{ item: CartItem, index: number }> = ({ item, index }) => (
-  <Grid item container xs={12}>
-    <Grid item xs={6}>
-      <Typography>
-        {index+1}. {item.bakedGood.name}
-      </Typography>
-    </Grid>
-    <Grid item xs={6}>
-      <Typography align="right">
-        {item.quantity} @ {currencyFormatter.format(item.bakedGood.price!!)} ea.
-      </Typography>
-    </Grid>
-  </Grid>
-);
+const useStyles = makeStyles({
+  card: { width: "80%" },
+  icon: { align: "right" }
+});
 
-const Summary: React.FC = () => {
-  const { state, dispatch } = React.useContext(AppContext);
-  const { cart, validation } = state;
-
-  const summaryItems = cart.items.map((item, index) => (
-    <SummaryItem item={item} index={index} key={item.bakedGood.id} />
-  ));
-
-  const alerts = validation.generalErrors.map(err => (<Alert severity="error" key={err}>{err}</Alert>));
-
-  return (
-    <>
+const Summary: React.FC<{ cart: Cart }> = ({ cart }) => {
+  const summaryItems = cart.items.map((item) => (
+    <span key={item.bakedGood.id}>
       <Grid item xs={12}>
-        <Typography variant="h4" component="h2">
-          Summary
+        <Typography>
+          {item.bakedGood.name}
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        {alerts}
+        <Typography align="right">
+          {item.quantity} @ {currencyFormatter.format(item.bakedGood.price!!)} ea.
+        </Typography>
       </Grid>
-      {summaryItems}
-      {cart.deliveryFee != 0 &&
-        <Grid item container xs={12}>
-          <Grid item xs={6}>
+    </span>
+  ));
+
+  const classes = useStyles();
+
+  return (
+    <Grid container item justify="center" xs={12} spacing={0}>
+      <Card className={classes.card} raised={true} >
+        <CardHeader title="Summary" action={
+          <RedeemIcon color="primary" fontSize="large" />
+        } titleTypographyProps={{ variant:"h4"}}>
+        </CardHeader>
+        <CardContent>
+          {summaryItems}
+          {cart.deliveryFee != 0 &&
+            <>
+              <Grid item xs={12}>
+                <Typography>
+                  Delivery fee
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography align="right">
+                  {currencyFormatter.format(cart.deliveryFee)}
+                </Typography>
+              </Grid>
+            </>
+          }
+          <Grid item xs={12}>
             <Typography>
-              Delivery fee
-          </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography align="right">
-              {currencyFormatter.format(cart.deliveryFee)}
+              <b>Donation amount</b>
             </Typography>
           </Grid>
-        </Grid>
-      }
-      <Grid item container xs={12}>
-        <Grid item xs={6}>
-          <Typography>
-            <b>Total amount</b>
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography align="right">
-            <b>{currencyFormatter.format(cart.totalAmount)}</b>
-          </Typography>
-        </Grid>
-      </Grid>
-    </>
+          <Grid item xs={12}>
+            <Typography align="right">
+              <b>{currencyFormatter.format(cart.totalAmount)}</b>
+            </Typography>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Grid>
   );
 };
 

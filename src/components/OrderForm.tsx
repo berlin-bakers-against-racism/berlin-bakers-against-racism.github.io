@@ -11,6 +11,7 @@ import Menu from "./Menu";
 import Summary from "./Summary";
 import Fulfillment from "./Fullfillment"
 import { Donor, OrderResponse, FulfillmentOption } from '../context/domain';
+import { Alert } from '@material-ui/lab';
 
 const initialValues = {
   emailAddress: "",
@@ -21,7 +22,8 @@ const initialValues = {
 };
 
 const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}> = ({ onSubmit }) => {
-  const { state, dispatch } = React.useContext(AppContext);
+  const { state } = React.useContext(AppContext);
+  const { cart, validation } = state;
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
@@ -33,7 +35,7 @@ const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}>
       .max(200, 'Too long')
       .email('Invalid email address')
       .required('Required'),
-    address: Yup.string().required(() => state.cart.fulfillment === FulfillmentOption.DropOff ? 'Required' : null),
+    address: Yup.string().required(() => cart.fulfillment === FulfillmentOption.DropOff ? 'Required' : null),
   });
 
   const submit = async (donor: Donor, { setSubmitting }: any) => {
@@ -46,6 +48,8 @@ const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}>
       setSubmitting(false);
     }
   };
+
+  const alerts = validation.generalErrors.map(err => (<Alert severity="error" key={err}>{err}</Alert>));
 
   return (
     <Formik
@@ -61,8 +65,13 @@ const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}>
             <DonorInfo />
             <br />
             <Fulfillment />
+            <br/>
+            <Grid item xs={12}>
+              {alerts}
+            </Grid>
+            <br/>
             <br />
-            <Summary />
+            <Summary cart={cart} />
             <Grid item xs={12}>
               {isSubmitting && <LinearProgress />}
               <br />
