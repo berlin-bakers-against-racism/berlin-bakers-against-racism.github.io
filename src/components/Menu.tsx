@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Grid, Typography, Card, CardContent, CardHeader, CardActions, Tooltip, TextField } from "@material-ui/core";
+import { Grid, Typography, Card, CardContent, CardHeader, CardActions, Tooltip, TextField, Link } from "@material-ui/core";
 
 import { AppContext } from "../context/AppState";
 import { BakedGood, ActionType } from "../context/domain";
@@ -9,6 +9,24 @@ type MenuItemProps = {
 };
 
 const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+
+const addInstagramLink = (text?: string) => {
+  console.log("instagram", text);
+  if (!text) return text;
+
+  const parts = text.split(/ @([^ ]+)/);
+  if (parts.length === 1) return text;
+
+  return (
+  <>
+    {parts[0]} 
+    &nbsp;<Link href={"https://www.instagram.com/" + parts[1]} target="_blank" rel="noopener">@{parts[1]}</Link>&nbsp;
+    {parts.length > 2 && parts[2]} 
+    {parts.length > 3 && ( <Link href={"https://www.instagram.com/" + parts[3]} target="_blank" rel="noopener">@{parts[3]}</Link> )} 
+    {parts.length > 4 && parts[4]} 
+  </>
+  );
+};
 
 const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
   const { state, dispatch } = useContext(AppContext)
@@ -25,7 +43,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
         <CardHeader title={bakedGood.name} />
         <CardContent>
           <Typography paragraph>
-            {bakedGood.description}
+            {addInstagramLink(bakedGood.description)}
           </Typography>
           <Typography variant="body2" align="right">
             {bakedGood.countRemaining} of {bakedGood.maxAmount} still available

@@ -65,7 +65,6 @@ export const menuReducer = (state: BakedGoods, action: MenuAction) => {
 }
 
 export const orderReducer = (state: OrderStatus, action: OrderAction): OrderStatus => {
-  console.log("Order reducer", action, status);
   switch (action.type){
     case ActionType.PlaceOrder:
       return {
