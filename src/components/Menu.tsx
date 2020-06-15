@@ -11,7 +11,6 @@ type MenuItemProps = {
 const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 
 const addInstagramLink = (text?: string) => {
-  console.log("instagram", text);
   if (!text) return text;
 
   const parts = text.split(/ @([^ ]+)/);
@@ -69,7 +68,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
 const Menu = () => {
   const { state } = useContext(AppContext);
 
-  const bakedGoods = state.menu.items.filter(item => item.isAvailable && item.countRemaining && item.countRemaining!! > 0)
+  const bakedGoods = state.menu.items.filter(item => item.isAvailable && item.countRemaining && item.countRemaining!! > 0 && item.price)
     .map(item => (
     <MenuItem bakedGood={item} key={item.id} />
   ));

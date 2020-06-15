@@ -52,7 +52,7 @@ const DonorInfo: React.FC = () => {
           fullWidth
           maxLength={200}
           rowsMax={4}
-          helperText="For example: Etage; Hinterhof; deliver in the evenings, please."
+          helperText="For example: Etage; Hinterhof."
         />
       </Grid>
     </Grid>

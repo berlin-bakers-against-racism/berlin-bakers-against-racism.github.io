@@ -3,6 +3,8 @@ import { Formik, Form } from 'formik';
 import { Button, LinearProgress, Grid  } from '@material-ui/core';
 
 import { AppContext } from "../context/AppState";
+
+import validate from "./validation";
 import DonorInfo from "./DonorInfo";
 import Menu from "./Menu";
 import Summary from "./Summary";
@@ -17,19 +19,14 @@ const initialValues: Donor = {
   specialInstructions: "",
 };
 
-const validate = (values: Donor) => {
-  const errors: Partial<Donor> = {};
-  if (!values.emailAddress) {
-    errors.emailAddress = 'Required';
-  } else if (
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.emailAddress)
-  ) {
-    errors.emailAddress = 'Invalid email address';
-  }
-  return errors;
-}
-
 const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}> = ({ onSubmit }) => {
+  
+  const { state } = React.useContext(AppContext);
+
+  const onValidate = (donor: Donor) => {
+    return validate({donor, cart: state.cart});
+  };
+
   const submit = async (donor: Donor, { setSubmitting }: any) => {
     console.log("Submit from order page", donor);
     try {
@@ -46,7 +43,7 @@ const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}>
   return (
     <Formik
       initialValues={initialValues}
-      validate={validate}
+      validate={onValidate}
       onSubmit={submit}
     >
       {({ submitForm, isSubmitting }) => (
