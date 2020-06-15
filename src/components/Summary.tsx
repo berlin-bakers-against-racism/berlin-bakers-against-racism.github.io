@@ -9,7 +9,6 @@ const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', cu
 
 const useStyles = makeStyles({
   card: { width: "80%" },
-  icon: { align: "right" }
 });
 
 const Summary: React.FC<{ cart: Cart }> = ({ cart }) => {

@@ -35,6 +35,7 @@ export type BakedGood = {
   id: string,
   name: string,
   description?: string,
+  category?: string,
   price?: number,
   maxAmount?: number,
   reservedCount?: number,

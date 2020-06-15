@@ -3,6 +3,7 @@ import { Grid, Typography, Card, CardContent, CardHeader, CardActions, Tooltip, 
 
 import { AppContext } from "../context/AppState";
 import { BakedGood, ActionType } from "../context/domain";
+import getIconForCategory from "./icons";
 
 type MenuItemProps = {
   bakedGood: BakedGood
@@ -28,7 +29,7 @@ const addInstagramLink = (text?: string) => {
 };
 
 const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
-  const { state, dispatch } = useContext(AppContext)
+  const { dispatch } = useContext(AppContext)
   
   const updateCart = (quantityText: string) => {
     let quantity = parseFloat(quantityText);
@@ -36,10 +37,12 @@ const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
     dispatch({ type: ActionType.ChangeItemQuantity, item: bakedGood, quantity});
   };
 
+  let icon = getIconForCategory(bakedGood.category);
+
   return (
     <Grid item xs={12}>
       <Card raised={true}>
-        <CardHeader title={bakedGood.name} />
+        <CardHeader title={bakedGood.name} action={icon}/>
         <CardContent>
           <Typography paragraph>
             {addInstagramLink(bakedGood.description)}
