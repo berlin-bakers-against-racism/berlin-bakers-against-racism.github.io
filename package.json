@@ -6,6 +6,7 @@
   "author": "Ed Chapel <edchapel@gmail.com>",
   "dependencies": {
     "@material-ui/core": "^4.10.2",
+    "@material-ui/icons": "^4.9.1",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
     "gatsby": "^2.22.15",
@@ -17,12 +18,14 @@
     "gatsby-plugin-sharp": "^2.6.9",
     "gatsby-source-filesystem": "^2.3.8",
     "gatsby-transformer-sharp": "^2.5.3",
+    "papaparse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.0.0"
   },
   "devDependencies": {
+    "@types/papaparse": "^5.0.4",
     "@types/react-helmet": "^6.0.0",
     "prettier": "2.0.5",
     "typescript": "^3.9.5"

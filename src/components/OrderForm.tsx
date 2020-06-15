@@ -1,15 +1,22 @@
-import * as React from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Button, LinearProgress, Grid } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
+import { Button, LinearProgress, Grid, Typography } from '@material-ui/core';
 
-interface Donor {
-  emailAddress: string;
-}
+import { submitOrder } from "../gateway/GoogleData";
+import { AppContext, AppState } from "../context/AppState";
+import DonorInfo from "./DonorInfo";
+import Menu from "./Menu";
+import { Donor } from '../context/domain';
 
-const initialValues = {
+const initialValues: Donor = {
   emailAddress: "",
+  fullName: "",
+  phoneNumber: "",
+  address: "",
+  specialInstructions: "",
 };
+
+const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 
 const validate = (values: Donor) => {
   const errors: Partial<Donor> = {};
@@ -23,31 +30,34 @@ const validate = (values: Donor) => {
   return errors;
 }
 
-const onSubmit = (values: Donor, { setSubmitting }: any) => {
-  setTimeout(() => {
-    setSubmitting(false);
-    alert(JSON.stringify(values, null, 2));
-  }, 500);
-};
-
 const OrderForm = () => {
+  const { state, dispatch } = React.useContext(AppContext);
+  
+  const submit = async (values: Donor, { setSubmitting }: any) => {
+    try {
+      const result = await submitOrder({ donor: values, cart: state.cart });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
       validate={validate}
-      onSubmit={onSubmit}
+      onSubmit={submit}
     >
       {({ submitForm, isSubmitting }) => (
-        <Form>
-          <Grid container spacing={6}>
+        <Grid container>
+          <Form>
+            <Menu />
+            <br />
+            <DonorInfo />
+            <br />
             <Grid item xs={12}>
-
-              <Field
-                component={TextField}
-                name="emailAddress"
-                type="email"
-                label="Email address"
-              />
+              <Typography variant="subtitle1">
+                Total amount: {currencyFormatter.format(state.cart.totalAmount)}
+              </Typography>
             </Grid>
             <Grid item xs={12}>
               {isSubmitting && <LinearProgress />}
@@ -57,10 +67,10 @@ const OrderForm = () => {
                 color="primary"
                 disabled={isSubmitting}
                 onClick={submitForm}
-              >Proceed to confirmation</Button>
+              >Submit order</Button>
             </Grid>
-          </Grid>
-        </Form>
+          </Form>
+        </Grid>
       )}
     </Formik>
   );
