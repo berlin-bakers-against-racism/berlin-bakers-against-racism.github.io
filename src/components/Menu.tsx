@@ -38,7 +38,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
 
   return (
     <Grid item xs={12}>
-      <Card>
+      <Card raised={true}>
         <CardHeader title={bakedGood.name} />
         <CardContent>
           <Typography paragraph>
@@ -49,13 +49,11 @@ const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Tooltip title="TODO Align right">
           <TextField
             label="Quantity"
             type="number"
             onChange={e => updateCart(e.target.value)}
             />
-          </Tooltip>
           <Typography variant="body1">
             @ {currencyFormatter.format(bakedGood.price!!)} each
           </Typography>
