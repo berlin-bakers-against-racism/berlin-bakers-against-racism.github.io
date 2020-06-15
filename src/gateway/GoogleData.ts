@@ -70,7 +70,7 @@ export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse
       }
       return order;
     }, sheetOrder);
-
+    
     const response = await fetch(webAppUrl,
       {
         method: "POST",
@@ -81,14 +81,15 @@ export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse
         redirect: "follow",
         body: JSON.stringify(sheetOrder),
     });
+    
     return {
       isSuccess: true,
-      message: "Submitted!"
+      message: "Submitted!",
     };
   } catch (e) {
     return {
       isSuccess: false,
-      message: e.message
+      message: e.message,
     };
   }
 };

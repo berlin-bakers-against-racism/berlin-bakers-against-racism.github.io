@@ -16,22 +16,25 @@ const IndexPage = () => {
   const { state, dispatch } = React.useContext(AppContext);
 
   const submit = async (donor: Donor): Promise<OrderResponse> => {
+    const { cart } = state;
     try {
       dispatch({type: ActionType.Validation, result: { donorErrors: {}, hasError: false, generalErrors: [] } });
 
-      const validation = validate({donor, cart: state.cart});
+      const validation = validate({donor, cart});
       dispatch({type: ActionType.Validation, result: validation });
 
       if (validation.hasError) {
         return { isSuccess: false, message: "Please review the errors above." };
       }
+      
+      dispatch({ type: ActionType.UpdateDonor, donor });
 
       dispatch({ type: ActionType.PlaceOrder });
       const response = await submitOrder({ donor, cart: state.cart });
       dispatch({ type: ActionType.OrderPlaced, response });
       return response;
     } catch (e) {
-      const response = { isSuccess: false, message: "Oops... there was an error taking your order. Please try again." };
+      const response = { isSuccess: false, message: "Oops... there was an error taking your order. Please try again.", donor, cart };
       dispatch({ type: ActionType.OrderPlaced, response });
       return response;
     }
@@ -39,7 +42,8 @@ const IndexPage = () => {
 
   let page;
   if (state.status.orderSuccess) {
-    page = <SuccessPage />;
+    const { donor, cart } = state;
+    page = <SuccessPage donor={donor} cart={cart} />;
   } else {
     page = <OrderForm onSubmit={submit} />
   }

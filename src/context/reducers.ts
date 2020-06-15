@@ -2,11 +2,12 @@ import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuActio
 
 export const donorReducer = (state: Donor, action: DonorAction) => {
   switch (action.type) {
-    case ActionType.EmailAddress:
+    case ActionType.UpdateDonor:
       return {
-        emailAddress: action.emailAddress,
-        ...state
+        ...state,
+        ...action.donor,
       };
+    
     default:
       return state;
   }

@@ -60,7 +60,7 @@ export type OrderStatus = {
 
 export type OrderResponse = {
   isSuccess: boolean,
-  message?: string
+  message?: string,
 };
 
 export type Validation = {
@@ -70,7 +70,7 @@ export type Validation = {
 };
 
 export enum ActionType {
-  EmailAddress = 'EMAIL_ADDRESS',
+  UpdateDonor = 'UPDATE_DONOR',
   ChangeItemQuantity = "CHANGE_ITEM_QUANTITY",
   ChooseFulfillment = "CHOOSE_FULFILLMENT",
   UpdateMenu = 'UPDATE_MENU',
@@ -83,7 +83,7 @@ export type CartAction =
   | { type: ActionType.ChangeItemQuantity, item: BakedGood, quantity: number }
   | { type: ActionType.ChooseFulfillment, option: FulfillmentOption };
 
-export type DonorAction = { type: ActionType.EmailAddress, emailAddress: string };
+export type DonorAction = { type: ActionType.UpdateDonor, donor: Donor };
 
 export type MenuAction = { type: ActionType.UpdateMenu, menu: BakedGoods };
 
