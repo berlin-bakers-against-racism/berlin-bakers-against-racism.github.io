@@ -1,17 +1,18 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { Button, LinearProgress, Grid  } from '@material-ui/core';
+import * as Yup from "yup";
 
 import { AppContext } from "../context/AppState";
+import validate, { validateDonor } from './validation';
 
-import validate from "./validation";
 import DonorInfo from "./DonorInfo";
 import Menu from "./Menu";
 import Summary from "./Summary";
 import Fulfillment from "./Fullfillment"
-import { Donor, OrderResponse } from '../context/domain';
+import { Donor, OrderResponse, FulfillmentOption } from '../context/domain';
 
-const initialValues: Donor = {
+const initialValues = {
   emailAddress: "",
   fullName: "",
   phoneNumber: "",
@@ -20,18 +21,24 @@ const initialValues: Donor = {
 };
 
 const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}> = ({ onSubmit }) => {
-  
-  const { state } = React.useContext(AppContext);
+  const { state, dispatch } = React.useContext(AppContext);
 
-  const onValidate = (donor: Donor) => {
-    return validate({donor, cart: state.cart});
-  };
+  const validationSchema = Yup.object().shape({
+    fullName: Yup.string()
+      .min(2, 'Too short')
+      .max(200, 'Too long')
+      .required('Required'),
+    emailAddress: Yup.string()
+      .min(5, 'Too short')
+      .max(200, 'Too long')
+      .email('Invalid email address')
+      .required('Required'),
+    address: Yup.string().required(() => state.cart.fulfillment === FulfillmentOption.DropOff ? 'Required' : null),
+  });
 
   const submit = async (donor: Donor, { setSubmitting }: any) => {
-    console.log("Submit from order page", donor);
     try {
       const response = await onSubmit(donor);
-      console.log("Submit complete in orders", response); 
       if (response.message) {
         // TODO
       }    
@@ -43,7 +50,7 @@ const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}>
   return (
     <Formik
       initialValues={initialValues}
-      validate={onValidate}
+      validationSchema={validationSchema}
       onSubmit={submit}
     >
       {({ submitForm, isSubmitting }) => (

@@ -2,7 +2,8 @@ export type AppState = {
   donor: Donor,
   cart: Cart,
   menu: BakedGoods,
-  status: OrderStatus
+  status: OrderStatus,
+  validation: Validation
 };
 
 export type Donor = {
@@ -62,6 +63,12 @@ export type OrderResponse = {
   message?: string
 };
 
+export type Validation = {
+  donorErrors: Donor,
+  hasError: boolean,
+  generalErrors: string[]
+};
+
 export enum ActionType {
   EmailAddress = 'EMAIL_ADDRESS',
   ChangeItemQuantity = "CHANGE_ITEM_QUANTITY",
@@ -69,6 +76,7 @@ export enum ActionType {
   UpdateMenu = 'UPDATE_MENU',
   PlaceOrder = 'PLACE_ORDER',
   OrderPlaced = 'ORDER_PLACED',
+  Validation = "VALIDATION",
 };
 
 export type CartAction =
@@ -80,6 +88,7 @@ export type DonorAction = { type: ActionType.EmailAddress, emailAddress: string 
 export type MenuAction = { type: ActionType.UpdateMenu, menu: BakedGoods };
 
 export type OrderAction =
+  | { type: ActionType.Validation, result: Validation }
   | { type: ActionType.PlaceOrder }
   | { type: ActionType.OrderPlaced, response: OrderResponse };
 

@@ -1,68 +1,90 @@
-import { Donor, AppState, Cart, FulfillmentOption } from "../context/domain";
+import { Donor, Cart, FulfillmentOption, Validation } from "../context/domain";
 
 type ErrorContext = {
   donor: Donor,
   cart: Cart,
-  errors: Partial<Donor>,
-  generalErrors: string[]
+  validation: Validation,
 };
 
-const validateName = ({ donor, errors }: ErrorContext) => {
+const validateName = ({ donor, validation }: ErrorContext) => {
+  const { donorErrors } = validation;
   if (!donor.fullName) {
-    errors.fullName = 'Required';
+    donorErrors.fullName = 'Required';
+    validation.hasError = true;
   } else if (donor.fullName?.length > 20) {
-    errors.fullName = 'Name is too long';
+    donorErrors.fullName = 'Name is too long';
+    validation.hasError = true;
   }
 };
 
-const validateEmail = ({ donor, errors }: ErrorContext) => {
+const validateEmail = ({ donor, validation }: ErrorContext) => {
+  const { donorErrors } = validation;
   if (!donor.emailAddress) {
-    errors.emailAddress = 'Required';
+    donorErrors.emailAddress = 'Required';
+    validation.hasError = true;
   } else if (
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(donor.emailAddress)
   ) {
-    errors.emailAddress = 'Invalid email address';
+    donorErrors.emailAddress = 'Invalid email address';
+    validation.hasError = true;
   } else if (donor.emailAddress?.length > 200) {
-    errors.emailAddress = 'Invalid email address';
+    donorErrors.emailAddress = 'Invalid email address';
+    validation.hasError = true;
   }
 };
 
-const validateAddress = ({ donor, cart, errors }: ErrorContext) => {
+const validateAddress = ({ donor, cart, validation }: ErrorContext) => {
   if (cart.fulfillment === FulfillmentOption.DropOff) {
+    const { donorErrors } = validation;
     if (!donor.address) {
-      errors.address = 'Required';
+      donorErrors.address = 'Required';
+      validation.hasError = true;
     } else if (donor.address?.length > 300) {
-      errors.address = 'Address is too long';
+      donorErrors.address = 'Address is too long';
+      validation.hasError = true;
     }
   }
 };
 
-const validateCart = ({ cart, generalErrors }: ErrorContext) => {
+const validateCart = ({ cart, validation }: ErrorContext) => {
   if (cart.items.length == 0) {
-    generalErrors.push("Your cart is empty.")
+    validation.generalErrors.push("Your cart is empty.")
+    validation.hasError = true;
   }
 
   if (cart.items.length > 5) {
-    generalErrors.push("Sorry, only a maximum of 5 different products may be ordered.");
+    validation.generalErrors.push("Sorry, only a maximum of 5 different products may be ordered.");
+    validation.hasError = true;
   }
 
   cart.items.forEach(item => {
     if (!item.bakedGood.countRemaining || item.bakedGood.countRemaining < item.quantity) {
-      generalErrors.push(`We're sorry, but we're unable to make enough '${item.bakedGood.name}' for your request. Please reduce the quanitity to the available amount to continue.`);
+      validation.generalErrors.push(`We're sorry, but we're unable to make enough '${item.bakedGood.name}' for your request. Please reduce the quanitity to the available amount to continue.`);
+      validation.hasError = true;
     }
   });
 
   if (cart.fulfillment === FulfillmentOption.None) {
-    generalErrors.push(`Please select either pick-up or delivery to receive your items.`)
+    validation.generalErrors.push(`Please select either pick-up or delivery to receive your items.`)
+    validation.hasError = true;
   }
 }
 
-const validate = ({ donor, cart }: {donor: Donor, cart: Cart}) => {
+const validate = ({ donor, cart }: { donor: Donor, cart: Cart }) => {
   const context: ErrorContext = {
     donor,
     cart,
-    errors: {},
-    generalErrors: []
+    validation: {
+      hasError: false,
+      donorErrors: {
+        emailAddress: "",
+        fullName: "",
+        phoneNumber: "",
+        address: "",
+        specialInstructions: "",
+      },
+      generalErrors: []
+    }
   }
 
   validateName(context);
@@ -70,7 +92,29 @@ const validate = ({ donor, cart }: {donor: Donor, cart: Cart}) => {
   validateAddress(context);
   validateCart(context);
 
-  return context.errors;
+  return context.validation;
 };
+
+export const validateDonor = (donor: Donor) => {
+  const context: ErrorContext = {
+    donor,
+    cart: {} as any,
+    validation: {
+      hasError: false,
+      donorErrors: {
+        emailAddress: "",
+        fullName: "",
+        phoneNumber: "",
+        address: "",
+        specialInstructions: "",
+      },
+      generalErrors: []
+    }
+  }
+  validateName(context);
+  validateEmail(context);
+  validateAddress(context);
+  return context.validation.donorErrors;
+}
 
 export default validate;

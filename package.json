@@ -7,6 +7,7 @@
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "formik": "^2.1.4",
     "formik-material-ui": "^2.0.0-beta.1",
     "gatsby": "^2.22.15",
@@ -22,11 +23,13 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.0.0"
+    "react-helmet": "^6.0.0",
+    "yup": "^0.29.1"
   },
   "devDependencies": {
     "@types/papaparse": "^5.0.4",
     "@types/react-helmet": "^6.0.0",
+    "@types/yup": "^0.29.3",
     "gh-pages": "^3.0.0",
     "prettier": "2.0.5",
     "typescript": "^3.9.5"

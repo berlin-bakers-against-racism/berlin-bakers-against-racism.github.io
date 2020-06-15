@@ -1,4 +1,4 @@
-import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuAction, CartItem, FulfillmentOption, OrderAction, OrderStatus, OrderState } from "./domain"
+import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuAction, CartItem, FulfillmentOption, OrderAction, OrderStatus, OrderState, AppState, Validation } from "./domain"
 
 export const donorReducer = (state: Donor, action: DonorAction) => {
   switch (action.type) {
@@ -80,9 +80,20 @@ export const orderReducer = (state: OrderStatus, action: OrderAction): OrderStat
           currentStep: OrderState.Submitted,
           orderSuccess: action.response === undefined || action.response.isSuccess,
           orderError: action.response?.message
-        };
+        };        
 
     default:
       return state;
+  }
+};
+
+export const validationReducer = ({donor, cart, validation}: AppState, action: OrderAction): Validation => {
+  switch (action.type) {
+    case ActionType.Validation:
+      return {
+        ...action.result
+      };
+    default:
+      return validation;
   }
 };

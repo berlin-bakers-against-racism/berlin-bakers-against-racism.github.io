@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import { AppContext } from "../context/AppState";
 import { submitOrder } from "../gateway/GoogleData";
+import validate from "../components/validation";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
@@ -15,8 +16,16 @@ const IndexPage = () => {
   const { state, dispatch } = React.useContext(AppContext);
 
   const submit = async (donor: Donor): Promise<OrderResponse> => {
-    console.log("submitting");
     try {
+      dispatch({type: ActionType.Validation, result: { donorErrors: {}, hasError: false, generalErrors: [] } });
+
+      const validation = validate({donor, cart: state.cart});
+      dispatch({type: ActionType.Validation, result: validation });
+
+      if (validation.hasError) {
+        return { isSuccess: false, message: "Please review the errors above." };
+      }
+
       dispatch({ type: ActionType.PlaceOrder });
       const response = await submitOrder({ donor, cart: state.cart });
       dispatch({ type: ActionType.OrderPlaced, response });

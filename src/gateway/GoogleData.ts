@@ -32,9 +32,9 @@ export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse
     const sheetOrder: Partial<SheetOrder> = {
       donorName: donor.fullName!!,
       donorEmailAddress: donor.emailAddress!!,
-      donorPhoneNumber: donor.phoneNumber ?? "",
-      donorAddress: donor.address!!,
-      donorSpecialInstructions: donor.specialInstructions ?? "",
+      donorPhoneNumber: donor.phoneNumber || "",
+      donorAddress: cart.fulfillment === FulfillmentOption.DropOff ? donor.address!! : '',
+      donorSpecialInstructions: donor.specialInstructions || "",
       fulfillment: cart.fulfillment,
       totalAmountQuoted: cart.totalAmount,
     };
