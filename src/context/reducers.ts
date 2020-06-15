@@ -1,4 +1,4 @@
-import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuAction, CartItem, FulfillmentOption } from "./domain"
+import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuAction, CartItem, FulfillmentOption, OrderAction, OrderStatus, OrderState } from "./domain"
 
 export const donorReducer = (state: Donor, action: DonorAction) => {
   switch (action.type) {
@@ -63,3 +63,27 @@ export const menuReducer = (state: BakedGoods, action: MenuAction) => {
       return state;
   }
 }
+
+export const orderReducer = (state: OrderStatus, action: OrderAction): OrderStatus => {
+  console.log("Order reducer", action, status);
+  switch (action.type){
+    case ActionType.PlaceOrder:
+      return {
+        ...state,
+        currentStep: OrderState.Submitting,
+        orderSuccess: false,
+        orderError: undefined,
+      };
+    
+      case ActionType.OrderPlaced:
+        return {
+          ...state,
+          currentStep: OrderState.Submitted,
+          orderSuccess: action.response === undefined || action.response.isSuccess,
+          orderError: action.response?.message
+        };
+
+    default:
+      return state;
+  }
+};

@@ -1,19 +1,14 @@
 import React from "react";
 import Papa from "papaparse";
 
-import { Donor, Cart, Action, DonorAction, CartAction, ActionType, BakedGoods, BakedGood, MenuAction, FulfillmentOption } from "./domain";
-import { donorReducer, cartReducer, menuReducer } from "./reducers";
-
-export type AppState = {
-  donor: Donor,
-  cart: Cart,
-  menu: BakedGoods
-};
+import { AppState, Action, DonorAction, CartAction, ActionType, BakedGoods, MenuAction, FulfillmentOption, OrderState, OrderAction } from "./domain";
+import { donorReducer, cartReducer, menuReducer, orderReducer } from "./reducers";
 
 const initialState: AppState = {
   donor: {},
   cart: { items: [], fulfillment: FulfillmentOption.None, deliveryFee: 0, totalAmount: 0 },
-  menu: { items: [] }
+  menu: { items: [] },
+  status: { orderSuccess: false, currentStep: OrderState.None }
 };
 
 const AppContext = React.createContext<{
@@ -24,11 +19,12 @@ const AppContext = React.createContext<{
   dispatch: () => null
 });
 
-const reducer: (state: AppState, action: Action) => AppState = ({ donor, cart, menu }, action) => {
+const reducer: (state: AppState, action: Action) => AppState = ({ donor, cart, menu, status}, action) => {
   return ({
     donor: donorReducer(donor, action as DonorAction),
     cart: cartReducer(cart, action as CartAction),
     menu: menuReducer(menu, action as MenuAction),
+    status: orderReducer(status, action as OrderAction),
   });
 }
 

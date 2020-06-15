@@ -4,7 +4,7 @@ import { Field } from "formik";
 import { TextField } from 'formik-material-ui';
 import { Grid, Typography } from "@material-ui/core";
 
-const DonorInfo = () => {
+const DonorInfo: React.FC = () => {
   return (
     <Grid item container xs={12} spacing={6}>
       <Grid item xs={12}>

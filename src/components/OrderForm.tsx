@@ -1,14 +1,13 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { Button, LinearProgress, Grid, Typography, Radio } from '@material-ui/core';
+import { Formik, Form } from 'formik';
+import { Button, LinearProgress, Grid  } from '@material-ui/core';
 
-import { submitOrder } from "../gateway/GoogleData";
-import { AppContext, AppState } from "../context/AppState";
+import { AppContext } from "../context/AppState";
 import DonorInfo from "./DonorInfo";
 import Menu from "./Menu";
 import Summary from "./Summary";
 import Fulfillment from "./Fullfillment"
-import { Donor } from '../context/domain';
+import { Donor, OrderResponse } from '../context/domain';
 
 const initialValues: Donor = {
   emailAddress: "",
@@ -30,12 +29,15 @@ const validate = (values: Donor) => {
   return errors;
 }
 
-const OrderForm = () => {
-  const { state, dispatch } = React.useContext(AppContext);
-
-  const submit = async (values: Donor, { setSubmitting }: any) => {
+const OrderForm: React.FC<{ onSubmit: (donor: Donor) => Promise<OrderResponse>}> = ({ onSubmit }) => {
+  const submit = async (donor: Donor, { setSubmitting }: any) => {
+    console.log("Submit from order page", donor);
     try {
-      const result = await submitOrder({ donor: values, cart: state.cart });
+      const response = await onSubmit(donor);
+      console.log("Submit complete in orders", response); 
+      if (response.message) {
+        // TODO
+      }    
     } finally {
       setSubmitting(false);
     }

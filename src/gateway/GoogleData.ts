@@ -1,4 +1,4 @@
-import { Donor, Cart, OrderResponse } from "../context/domain";
+import { Donor, Cart, OrderResponse, FulfillmentOption } from "../context/domain";
 
 type Order = {
   donor: Donor,
@@ -11,12 +11,18 @@ type SheetOrder = {
   donorPhoneNumber: string,
   donorAddress: string,
   donorSpecialInstructions: string,
+  fulfillment: FulfillmentOption,
   item1Id: string,
   item1Qty: number,
   item2Id: string,
   item2Qty: number,
   item3Id: string,
   item3Qty: number,
+  item4Id: string,
+  item4Qty: number,
+  item5Id: string,
+  item5Qty: number,
+  totalAmountQuoted: number
 };
 
 export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse> => {
@@ -29,10 +35,41 @@ export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse
       donorPhoneNumber: donor.phoneNumber ?? "",
       donorAddress: donor.address!!,
       donorSpecialInstructions: donor.specialInstructions ?? "",
+      fulfillment: cart.fulfillment,
+      totalAmountQuoted: cart.totalAmount,
     };
 
-    sheetOrder.item1Id = cart.items[0].bakedGood.id;
-    sheetOrder.item1Qty = cart.items[0].quantity;
+    cart.items.reduce((order, item, index) => {
+      const { bakedGood, quantity} = item;
+
+      switch(index) {
+        case 0:
+          order.item1Id = bakedGood.id;
+          order.item1Qty = quantity;  
+          break;
+          
+          case 1: 
+          order.item2Id = bakedGood.id;
+          order.item2Qty = quantity;  
+          break;
+          
+          case 2: 
+          order.item3Id = bakedGood.id;
+          order.item3Qty = quantity;  
+          break;
+          
+          case 3: 
+          order.item4Id = bakedGood.id;
+          order.item4Qty = quantity;  
+          break;
+          
+          case 4: 
+          order.item5Id = bakedGood.id;
+          order.item5Qty = quantity;  
+          break;
+      }
+      return order;
+    }, sheetOrder);
 
     const response = await fetch(webAppUrl,
       {
