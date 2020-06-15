@@ -1,11 +1,13 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
-import { Button, LinearProgress, Grid, Typography } from '@material-ui/core';
+import { Button, LinearProgress, Grid, Typography, Radio } from '@material-ui/core';
 
 import { submitOrder } from "../gateway/GoogleData";
 import { AppContext, AppState } from "../context/AppState";
 import DonorInfo from "./DonorInfo";
 import Menu from "./Menu";
+import Summary from "./Summary";
+import Fulfillment from "./Fullfillment"
 import { Donor } from '../context/domain';
 
 const initialValues: Donor = {
@@ -15,8 +17,6 @@ const initialValues: Donor = {
   address: "",
   specialInstructions: "",
 };
-
-const currencyFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 
 const validate = (values: Donor) => {
   const errors: Partial<Donor> = {};
@@ -32,7 +32,7 @@ const validate = (values: Donor) => {
 
 const OrderForm = () => {
   const { state, dispatch } = React.useContext(AppContext);
-  
+
   const submit = async (values: Donor, { setSubmitting }: any) => {
     try {
       const result = await submitOrder({ donor: values, cart: state.cart });
@@ -54,11 +54,9 @@ const OrderForm = () => {
             <br />
             <DonorInfo />
             <br />
-            <Grid item xs={12}>
-              <Typography variant="subtitle1">
-                Total amount: {currencyFormatter.format(state.cart.totalAmount)}
-              </Typography>
-            </Grid>
+            <Fulfillment />
+            <br />
+            <Summary />
             <Grid item xs={12}>
               {isSubmitting && <LinearProgress />}
               <br />

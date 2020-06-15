@@ -1,7 +1,7 @@
 import React from "react";
 import Papa from "papaparse";
 
-import { Donor, Cart, Action, DonorAction, CartAction, ActionType, BakedGoods, BakedGood, MenuAction } from "./domain";
+import { Donor, Cart, Action, DonorAction, CartAction, ActionType, BakedGoods, BakedGood, MenuAction, FulfillmentOption } from "./domain";
 import { donorReducer, cartReducer, menuReducer } from "./reducers";
 
 export type AppState = {
@@ -12,7 +12,7 @@ export type AppState = {
 
 const initialState: AppState = {
   donor: {},
-  cart: { items: [], totalAmount: 0 },
+  cart: { items: [], fulfillment: FulfillmentOption.None, deliveryFee: 0, totalAmount: 0 },
   menu: { items: [] }
 };
 

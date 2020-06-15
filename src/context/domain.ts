@@ -11,9 +11,16 @@ export type CartItem = {
   quantity: number
 }
 
+export enum FulfillmentOption {
+  Pickup = "PICKUP",
+  DropOff = "DROP_OFF",
+  None = ""
+}
 export type Cart = {
   items: CartItem[]
-  totalAmount: number
+  fulfillment: FulfillmentOption,
+  deliveryFee: number,
+  totalAmount: number,
 }
 
 export type BakedGood = {
@@ -39,11 +46,13 @@ export type OrderResponse = {
 export enum ActionType {
   EmailAddress = 'EMAIL_ADDRESS',
   ChangeItemQuantity = "CHANGE_ITEM_QUANTITY",
+  ChooseFulfillment = "CHOOSE_FULFILLMENT",
   UpdateMenu = 'UPDATE_MENU',
 };
 
 export type CartAction =
-  | { type: ActionType.ChangeItemQuantity, item: BakedGood, quantity: number };
+  | { type: ActionType.ChangeItemQuantity, item: BakedGood, quantity: number }
+  | { type: ActionType.ChooseFulfillment, option: FulfillmentOption };
 
 export type DonorAction = { type: ActionType.EmailAddress, emailAddress: string };
 

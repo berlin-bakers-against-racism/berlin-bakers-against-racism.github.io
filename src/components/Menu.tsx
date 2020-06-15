@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Grid, Typography, Card, CardContent, CardHeader, CardActions, Tooltip, TextField } from "@material-ui/core";
 
-import { AppContext, AppState } from "../context/AppState";
+import { AppContext } from "../context/AppState";
 import { BakedGood, ActionType } from "../context/domain";
 
 type MenuItemProps = {
@@ -49,9 +49,10 @@ const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
 };
 
 const Menu = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { state } = useContext(AppContext);
 
-  const bakedGoods = state.menu.items.map(item => (
+  const bakedGoods = state.menu.items.filter(item => item.isAvailable && item.countRemaining && item.countRemaining!! > 0)
+    .map(item => (
     <MenuItem bakedGood={item} key={item.id} />
   ));
 
@@ -62,7 +63,7 @@ const Menu = () => {
           Baked goods
         </Typography>
         <Typography variant="body1">
-          Choose some of our delicious creations to receive with your donation.
+          Choose some of our delicious creations to receive with your donation. Baked goods will be available for pick-up or delivery on June 20th between 10:30-15:00. 
         </Typography>
       </Grid>
       {bakedGoods}

@@ -1,4 +1,4 @@
-import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuAction, CartItem } from "./domain"
+import { Donor, DonorAction, ActionType, Cart, CartAction, BakedGoods, MenuAction, CartItem, FulfillmentOption } from "./domain"
 
 export const donorReducer = (state: Donor, action: DonorAction) => {
   switch (action.type) {
@@ -11,6 +11,9 @@ export const donorReducer = (state: Donor, action: DonorAction) => {
       return state;
   }
 };
+
+const calculateTotalAmount = (items: CartItem[], deliveryFee: number) =>
+  items.reduce((total, item) => total += item.bakedGood.price!! * item.quantity, deliveryFee);
 
 export const cartReducer = (state: Cart, action: CartAction): Cart => {
   switch(action.type) {
@@ -25,13 +28,24 @@ export const cartReducer = (state: Cart, action: CartAction): Cart => {
         newItems.push({bakedGood: item, quantity});
       }
 
-      const totalAmount = newItems.reduce((total, item) => total += item.bakedGood.price!! * item.quantity, 0);
-
-      console.log(`New total is ${totalAmount}`);
       return {
+        ...state,
         items: newItems,
-        totalAmount,
+        totalAmount: calculateTotalAmount(newItems, state.deliveryFee),
       };
+    
+      case ActionType.ChooseFulfillment:
+        let deliveryFee = 0;
+        if (action.option === FulfillmentOption.DropOff) {
+          deliveryFee = 5;
+        }
+
+        return {
+          ...state,
+          fulfillment: action.option,
+          deliveryFee,
+          totalAmount: calculateTotalAmount(state.items, deliveryFee),
+        }
 
     default:
       return state;

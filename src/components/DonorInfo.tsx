@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import { AppContext, AppState } from "../context/AppState";
 import { Field } from "formik";
 import { TextField } from 'formik-material-ui';
 import { Grid, Typography } from "@material-ui/core";
@@ -13,7 +12,7 @@ const DonorInfo = () => {
           Contact info
         </Typography>
         <Typography variant="body1">
-          Tell us who you are and where we can deliver your items.
+          Tell us who you are and how you will receive your items.
         </Typography>
       </Grid>
       <Grid item xs={12} md={6}>
@@ -42,15 +41,6 @@ const DonorInfo = () => {
           type="tel"
           fullWidth
           helperText="In case we are having trouble making the delivery"
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Field
-          component={TextField}
-          name="address"
-          label="Address*"
-          fullWidth
-          helperText="House number and street in Berlin"
         />
       </Grid>
       <Grid item xs={12} md={6}>
