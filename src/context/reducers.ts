@@ -20,13 +20,17 @@ export const cartReducer = (state: Cart, action: CartAction): Cart => {
   switch(action.type) {
     case ActionType.ChangeItemQuantity:
       const { item, quantity } = action;
-      const newItems = [...state.items];
+      let newItems = [...state.items];
 
-      const matchedIdx = state.items.findIndex((cartItem) => cartItem.bakedGood.id === item.id);
-      if (matchedIdx >= 0) {
-        newItems[matchedIdx] = {...newItems[matchedIdx], quantity};
+      if (quantity > 0) {
+        const matchedIdx = state.items.findIndex((cartItem) => cartItem.bakedGood.id === item.id);
+        if (matchedIdx >= 0) {
+          newItems[matchedIdx] = {...newItems[matchedIdx], quantity};
+        } else if (quantity > 0) {
+          newItems.push({bakedGood: item, quantity});
+        }
       } else {
-        newItems.push({bakedGood: item, quantity});
+        newItems = newItems.filter(cartItem => cartItem.bakedGood.id !== item.id)
       }
 
       return {
