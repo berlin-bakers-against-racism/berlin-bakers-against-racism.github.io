@@ -7,6 +7,7 @@
 
 import React, { ReactNode } from "react";
 import { useStaticQuery, graphql } from "gatsby";
+import Container from "@material-ui/core/Container";
 
 import Header from "./header";
 import "./layout.css";
@@ -27,7 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
   `);
 
   return (
-    <>
+    <Container maxWidth="md">
       <Header siteTitle={data.site.siteMetadata.title} />
       <div
         style={{
@@ -43,7 +44,7 @@ const Layout = ({ children }: LayoutProps) => {
           <a href="https://www.gatsbyjs.org">Gatsby</a>
         </footer>
       </div>
-    </>
+    </Container>
   );
 };
 

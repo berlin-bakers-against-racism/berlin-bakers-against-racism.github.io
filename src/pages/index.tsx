@@ -1,23 +1,24 @@
 import React, { useContext } from "react";
 
 import Layout from "../components/layout";
-import Image from "../components/image";
 import SEO from "../components/seo";
 
-import { AppContext } from "../context/AppState"
+import { AppContext, AppState } from "../context/AppState";
+import { Grid, TextField, Button } from "@material-ui/core";
+import { ActionType } from "../context/domain";
+import OrderForm from "../components/OrderForm";
 
 const IndexPage = () => {
-  const { state } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   return (
     <Layout>
       <SEO title="Home" />
-      <h1>Hi people</h1>
-      <p>Welcome to your new Gatsby site.</p>
-      <p>Now go build something great.</p>
-      <p>Theme: {state.theme}</p>
-      <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-        <Image />
-      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1>Order form</h1>
+        </Grid>
+        <OrderForm />
+      </Grid>
     </Layout>
   );
 };

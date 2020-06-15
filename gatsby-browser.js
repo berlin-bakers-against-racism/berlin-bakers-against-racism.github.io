@@ -5,3 +5,10 @@
  */
 
 // You can delete this file if you're not using it
+
+const React = require('react');
+const AppProvider = require('./src/context/AppState').AppProvider;
+
+exports.wrapRootElement = ({ element }) => {
+  return <AppProvider>{element}</AppProvider>;
+};

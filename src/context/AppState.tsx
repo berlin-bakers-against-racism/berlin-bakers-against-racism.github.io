@@ -1,36 +1,37 @@
-import React, { ReactNode } from "react";
+import React from "react";
+
+import { Donor, Cart, Action, DonorAction, CartAction } from "./domain";
+import { donorReducer, cartReducer } from "./reducers";
 
 export type AppState = {
-  theme: string
+  donor: Donor,
+  cart: Cart,
 };
 
 const initialState: AppState = {
-  theme: "light",
+  donor: {},
+  cart: { items: [] },
 };
 
 const AppContext = React.createContext<{
   state: AppState;
-  dispatch: React.Dispatch<any>;
+  dispatch: React.Dispatch<Action>;
 }>({
   state: initialState,
   dispatch: () => null
 });
 
-function reducer(state: any, action: { type: string, payload?: any }) {
-  switch (action.type) {
-    case "TOGGLE_THEME": {
-      return {
-        ...state,
-        theme: state.theme === "light" ? "dark" : "light",
-      }
-    }
-    default:
-      throw new Error("Bad Action Type")
-  }
-};
+const reducer: (state: AppState, action: Action) => AppState = ({donor, cart}, action) => {
+  console.log("reducer", action);
+  return ({
+    donor: donorReducer(donor, action as DonorAction),
+    cart: cartReducer(cart, action as CartAction)
+  });
+}
 
 const AppProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  console.log("App Provider init");
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       {children}

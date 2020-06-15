@@ -1,23 +1,10 @@
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    title: `Berlin Bakers Against Racism`,
+    description: `We are holding a bake sale in Berlin to gather donations for organizations supporting Black Lives Matter.`,
+    author: `@edchapel`,
   },
   plugins: [
-    {
-      resolve: `gatsby-plugin-material-ui`,
-      options: {
-        theme: {
-          // material-ui theme
-          palette: {
-            primary: {
-              main: "#BA3D3B", // or whatever colors you need
-            },
-          },
-        },
-      },
-    },
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-source-filesystem`,
@@ -38,6 +25,19 @@ module.exports = {
         theme_color: `#663399`,
         display: `minimal-ui`,
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
+    {
+      resolve: `gatsby-plugin-material-ui`,
+      options: {
+        theme: {
+          // material-ui theme
+          palette: {
+            primary: {
+              main: "#BA3D3B", // or whatever colors you need
+            },
+          },
+        },
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
