@@ -47,12 +47,12 @@ const DonorInfo: React.FC = () => {
         <Field
           component={TextField}
           name="specialInstructions"
-          label="Special delivery instructions"
+          label="Special instructions"
           multiline
           fullWidth
           maxLength={200}
           rowsMax={4}
-          helperText="For example: Etage; Hinterhof."
+          helperText="For example: I will pickup in Kreuzberg; 5. Etage; Hinterhof."
         />
       </Grid>
     </Grid>
