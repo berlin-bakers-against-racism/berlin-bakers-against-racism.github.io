@@ -8,6 +8,7 @@
 
 const React = require('react');
 const AppProvider = require('./src/context/AppState').AppProvider;
+require('fontsource-roboto');
 
 exports.wrapRootElement = ({ element }) => {
   return <AppProvider>{element}</AppProvider>;

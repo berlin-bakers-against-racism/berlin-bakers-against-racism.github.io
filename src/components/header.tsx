@@ -1,6 +1,6 @@
-import { Link } from "gatsby";
 import React from "react";
-import Container from "@material-ui/core/Container";
+import { Container, Typography } from '@material-ui/core';
+import { Link } from "gatsby-theme-material-ui";
 
 type HeaderProps =  {
   siteTitle?: string
@@ -14,18 +14,12 @@ const Header = ({ siteTitle = '' }: HeaderProps) => (
       marginBottom: '2vw',
     }}
   >
-    <Container maxWidth="md" style={{ paddingTop: '6vw', paddingBottom: '2vw' }}>
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: 'inherit',
-            textDecoration: 'none',
-          }}
-        >
+    <Container maxWidth="md" style={{ paddingTop: '5vw', paddingBottom: '1vw' }}>
+      <Typography variant="h4" component="p" gutterBottom>
+        <Link to="/" color="inherit" underline="none">
           {siteTitle}
         </Link>
-      </h1>
+      </Typography>
     </Container>
   </header>
 );
