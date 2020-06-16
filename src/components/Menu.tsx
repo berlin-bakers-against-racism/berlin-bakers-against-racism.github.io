@@ -81,7 +81,8 @@ const Menu = () => {
           Baked goods
         </Typography>
         <Typography variant="body1">
-          Choose some of our delicious creations to receive with your donation. Baked goods will be available for pick-up or delivery on June 20th between 10:30-15:00. 
+          Choose some of our delicious creations to receive with your donation. Baked goods will be available on 20. June for
+          10:30h-16h pick-up (in Kreuzberg or Prenzlauer Berg) or 11h-15h delivery. 
         </Typography>
       </Grid>
       {bakedGoods}
