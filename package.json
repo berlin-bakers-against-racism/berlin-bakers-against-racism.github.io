@@ -1,9 +1,10 @@
 {
-  "name": "bake-sale",
+  "name": "berlin-bakers-against-racism",
+  "description": "A fundraiser to gather donations to fight systemic racism.",
   "private": true,
-  "description": "Bake sale event to collect donations for the Black Lives Matter movement.",
   "version": "0.1.0",
   "author": "Ed Chapel <edchapel@gmail.com>",
+  "contributors": ["Emanuele Marchi <emanuele.marchi@pm.me>"],
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
