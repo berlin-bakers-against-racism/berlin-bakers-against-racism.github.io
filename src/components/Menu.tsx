@@ -3,7 +3,7 @@ import { Grid, Typography, Card, CardContent, CardHeader, CardActions, Tooltip, 
 
 import { AppContext } from "../context/AppState";
 import { BakedGood, ActionType } from "../context/domain";
-import getIconForCategory from "./icons";
+import getIconForCategory from "./Icons";
 
 type MenuItemProps = {
   bakedGood: BakedGood
@@ -19,18 +19,18 @@ const addInstagramLink = (text?: string) => {
 
   return (
   <>
-    {parts[0]} 
+    {parts[0]}
     &nbsp;<Link href={"https://www.instagram.com/" + parts[1]} target="_blank" rel="noopener">@{parts[1]}</Link>&nbsp;
-    {parts.length > 2 && parts[2]} 
-    {parts.length > 3 && ( <Link href={"https://www.instagram.com/" + parts[3]} target="_blank" rel="noopener">@{parts[3]}</Link> )} 
-    {parts.length > 4 && parts[4]} 
+    {parts.length > 2 && parts[2]}
+    {parts.length > 3 && ( <Link href={"https://www.instagram.com/" + parts[3]} target="_blank" rel="noopener">@{parts[3]}</Link> )}
+    {parts.length > 4 && parts[4]}
   </>
   );
 };
 
 const MenuItem: React.FC<MenuItemProps> = ({ bakedGood }) => {
   const { dispatch } = useContext(AppContext)
-  
+
   const updateCart = (quantityText: string) => {
     let quantity = parseFloat(quantityText);
     if (isNaN(quantity)) quantity = 0;
@@ -82,7 +82,7 @@ const Menu = () => {
         </Typography>
         <Typography variant="body1">
           Choose some of our delicious creations to receive with your donation. Baked goods will be available on 20. June for
-          10:30h-16h pick-up (in Kreuzberg or Prenzlauer Berg) or 11h-15h delivery. 
+          10:30h-16h pick-up (in Kreuzberg or Prenzlauer Berg) or 11h-15h delivery.
         </Typography>
       </Grid>
       {bakedGoods}
