@@ -9,7 +9,7 @@ import React, { ReactNode } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import Container from "@material-ui/core/Container";
 
-import Header from "./header";
+import Header from "./Header";
 import "./layout.css";
 import { Typography } from "@material-ui/core";
 
@@ -29,15 +29,9 @@ const Layout = ({ children }: LayoutProps) => {
   `);
 
   return (
-    <Container maxWidth="md">
+    <div>
       <Header siteTitle={data.site.siteMetadata.title} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
+      <Container maxWidth="md">
         <main>{children}</main>
         <footer>
           <Typography variant="caption">
@@ -46,8 +40,8 @@ const Layout = ({ children }: LayoutProps) => {
             <a href="https://www.gatsbyjs.org">Gatsby</a>
           </Typography>
         </footer>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

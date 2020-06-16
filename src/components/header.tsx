@@ -1,36 +1,32 @@
 import { Link } from "gatsby";
 import React from "react";
+import Container from "@material-ui/core/Container";
 
 type HeaderProps =  {
-  siteTitle?: string 
+  siteTitle?: string
 };
 
-const Header = ({ siteTitle = `` }: HeaderProps) => (
+const Header = ({ siteTitle = '' }: HeaderProps) => (
   <header
     style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
+      color: 'white',
+      background: '#ff3569', // #ff358b
+      marginBottom: '2vw',
     }}
   >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
+    <Container maxWidth="md" style={{ paddingTop: '6vw', paddingBottom: '2vw' }}>
       <h1 style={{ margin: 0 }}>
         <Link
           to="/"
           style={{
-            color: `white`,
-            textDecoration: `none`,
+            color: 'inherit',
+            textDecoration: 'none',
           }}
         >
           {siteTitle}
         </Link>
       </h1>
-    </div>
+    </Container>
   </header>
 );
 

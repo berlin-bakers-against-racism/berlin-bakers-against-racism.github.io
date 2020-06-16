@@ -3,17 +3,14 @@ import React, { useContext } from "react";
 import { AppContext } from "../context/AppState";
 import { submitOrder } from "../gateway/GoogleData";
 import validate from "../components/validation";
-
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-
 import OrderForm from "../components/OrderForm";
 import SuccessPage from "../components/Success";
 import { Donor, OrderResponse, ActionType } from "../context/domain";
 
-
 const IndexPage = () => {
-  const { state, dispatch } = React.useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const submit = async (donor: Donor): Promise<OrderResponse> => {
     const { cart } = state;
@@ -26,7 +23,7 @@ const IndexPage = () => {
       if (validation.hasError) {
         return { isSuccess: false, message: "Please review the errors above." };
       }
-      
+
       dispatch({ type: ActionType.UpdateDonor, donor });
 
       dispatch({ type: ActionType.PlaceOrder });
