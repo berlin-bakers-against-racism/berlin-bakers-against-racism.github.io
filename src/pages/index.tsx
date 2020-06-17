@@ -8,6 +8,7 @@ import SEO from "../components/seo";
 import OrderForm from "../components/OrderForm";
 import SuccessPage from "../components/Success";
 import { Donor, OrderResponse, ActionType } from "../context/domain";
+import SaleOver from "./SaleOver";
 
 const IndexPage = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -37,18 +38,10 @@ const IndexPage = () => {
     }
   };
 
-  let page;
-  if (state.status.orderSuccess) {
-    const { donor, cart } = state;
-    page = <SuccessPage donor={donor} cart={cart} />;
-  } else {
-    page = <OrderForm onSubmit={submit} />
-  }
-
   return (
     <Layout>
       <SEO title="Berlin Bakers Against Racism" />
-      {page}
+      <SaleOver />
     </Layout>
   );
 };
