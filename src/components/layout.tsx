@@ -9,7 +9,7 @@ import React, { ReactNode } from "react";
 import { useStaticQuery, graphql } from "gatsby";
 import Container from "@material-ui/core/Container";
 
-import Header from "./Header";
+import Header from "./header";
 import "./layout.css";
 import { Typography } from "@material-ui/core";
 

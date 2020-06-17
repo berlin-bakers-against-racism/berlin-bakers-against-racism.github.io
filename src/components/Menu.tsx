@@ -3,7 +3,7 @@ import { Grid, Typography, Card, CardContent, CardHeader, CardActions, Tooltip, 
 
 import { AppContext } from "../context/AppState";
 import { BakedGood, ActionType } from "../context/domain";
-import getIconForCategory from "./Icons";
+import getIconForCategory from "./icons";
 
 type MenuItemProps = {
   bakedGood: BakedGood

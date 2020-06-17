@@ -1,9 +1,7 @@
 import { IconContext } from "react-icons";
 import React, { ReactElement } from 'react';
-import { FaBreadSlice } from 'react-icons/fa';
 import { GiChocolateBar, GiCupcake, GiBrightExplosion, GiCookie, GiSlicedBread, GiCoveredJar, GiPieSlice } from 'react-icons/gi';
-import { MdCake } from 'react-icons/md';
-import { RiCakeLine, RiCake3Line } from 'react-icons/ri';
+import { RiCakeLine } from 'react-icons/ri';
 import { makeStyles } from '@material-ui/core/styles';
 
 
