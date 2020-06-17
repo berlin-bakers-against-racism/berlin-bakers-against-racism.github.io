@@ -34,19 +34,19 @@ const reducer: (state: AppState, action: Action) => AppState = (state, action) =
 const AppProvider: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  React.useEffect(() => {
-    Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQYgNbdw-Xi06OVEpuXZ4T9aBWZVzRV3yIq1tTgybXlaPMkDrVm8etZXw7yXD3QzHo5y1Fv2tUAZ40d/pub?gid=1261232964&single=true&output=csv",
-      {
-        download: true,
-        header: true,
-        complete: ({ data }) => {
-          const menu: BakedGoods = {
-             items: data as any,
-          };
-          dispatch({ type: ActionType.UpdateMenu, menu})
-        }
-      });
-  }, []);
+  // React.useEffect(() => {
+  //   Papa.parse("https://docs.google.com/spreadsheets/d/e/2PACX-1vQYgNbdw-Xi06OVEpuXZ4T9aBWZVzRV3yIq1tTgybXlaPMkDrVm8etZXw7yXD3QzHo5y1Fv2tUAZ40d/pub?gid=1261232964&single=true&output=csv",
+  //     {
+  //       download: true,
+  //       header: true,
+  //       complete: ({ data }) => {
+  //         const menu: BakedGoods = {
+  //            items: data as any,
+  //         };
+  //         dispatch({ type: ActionType.UpdateMenu, menu})
+  //       }
+  //     });
+  // }, []);
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       {children}

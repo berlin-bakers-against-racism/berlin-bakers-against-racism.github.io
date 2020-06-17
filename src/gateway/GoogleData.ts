@@ -26,6 +26,8 @@ type SheetOrder = {
 };
 
 export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse> => {
+  throw Error("The sale is over. Thank you!");
+  
   const webAppUrl = "https://script.google.com/macros/s/AKfycbwv4qqUkmum0zL9WkOqNuv0A-ZeK5Fer1NVrIDD_w3wKhkOAVZ0/exec";
 
   try {
