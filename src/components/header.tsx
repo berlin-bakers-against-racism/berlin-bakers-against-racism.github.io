@@ -10,7 +10,7 @@ const Header = ({ siteTitle = '' }: HeaderProps) => (
   <header
     style={{
       color: 'white',
-      background: '#ff3569', // #ff358b
+      background: '#663399', // #ff358b
       marginBottom: '2vw',
     }}
   >
