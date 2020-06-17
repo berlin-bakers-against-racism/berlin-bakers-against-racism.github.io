@@ -37,6 +37,12 @@ export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse
       donorSpecialInstructions: donor.specialInstructions || "",
       fulfillment: cart.fulfillment,
       totalAmountQuoted: cart.totalAmount,
+      // Set Qty to zero to make querying in the sheets that much easier.
+      item1Qty: 0,
+      item2Qty: 0,
+      item3Qty: 0,
+      item4Qty: 0,
+      item5Qty: 0,
     };
 
     cart.items.reduce((order, item, index) => {
@@ -44,28 +50,28 @@ export const submitOrder = async ({ donor, cart }: Order): Promise<OrderResponse
 
       switch(index) {
         case 0:
-          order.item1Id = bakedGood.id;
           order.item1Qty = quantity;  
+          order.item1Id = bakedGood.id;
           break;
           
           case 1: 
-          order.item2Id = bakedGood.id;
           order.item2Qty = quantity;  
+          order.item2Id = bakedGood.id;
           break;
           
           case 2: 
-          order.item3Id = bakedGood.id;
           order.item3Qty = quantity;  
+          order.item3Id = bakedGood.id;
           break;
           
           case 3: 
-          order.item4Id = bakedGood.id;
           order.item4Qty = quantity;  
+          order.item4Id = bakedGood.id;
           break;
           
           case 4: 
-          order.item5Id = bakedGood.id;
           order.item5Qty = quantity;  
+          order.item5Id = bakedGood.id;
           break;
       }
       return order;

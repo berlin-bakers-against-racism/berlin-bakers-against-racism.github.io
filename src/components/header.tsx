@@ -1,36 +1,26 @@
-import { Link } from "gatsby";
 import React from "react";
+import { Container, Typography } from '@material-ui/core';
+import { Link } from "gatsby-theme-material-ui";
 
 type HeaderProps =  {
-  siteTitle?: string 
+  siteTitle?: string
 };
 
-const Header = ({ siteTitle = `` }: HeaderProps) => (
+const Header = ({ siteTitle = '' }: HeaderProps) => (
   <header
     style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
+      color: 'white',
+      background: '#663399', // #ff358b
+      marginBottom: '2vw',
     }}
   >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
+    <Container maxWidth="md" style={{ paddingTop: '5vw', paddingBottom: '1vw' }}>
+      <Typography variant="h4" component="p" gutterBottom>
+        <Link to="/" color="inherit" underline="none">
           {siteTitle}
         </Link>
-      </h1>
-    </div>
+      </Typography>
+    </Container>
   </header>
 );
 
